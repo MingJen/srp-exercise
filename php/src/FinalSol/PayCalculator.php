@@ -4,21 +4,16 @@ declare(strict_types=1);
 
 namespace App\FinalSol;
 
-use Assert\Assertion;
-
 class PayCalculator
 {
     /**
-     * @var array
+     * @var WorkHours
      */
-    private $work_hours_array;
+    private $work_hours;
 
-    public function __construct(array $work_hours_array)
+    public function __construct(WorkHours $work_hours)
     {
-        Assertion::count($work_hours_array, 7, '應該要有一週的工時資料');
-        Assertion::allInteger($work_hours_array, '工時資料應該為數字');
-        Assertion::allRange($work_hours_array, 0, 16, '工時資料應該為 0 - 16 的數字');
-        $this->work_hours_array = $work_hours_array;
+        $this->work_hours = $work_hours;
     }
 
     // CFO
@@ -30,7 +25,7 @@ class PayCalculator
     private function regularHours(): int
     {
         $total_regular_hours = 0;
-        foreach ($this->work_hours_array as $index => $work_hours_per_day) {
+        foreach ($this->work_hours->workHoursArray() as $index => $work_hours_per_day) {
             if ($index === 0 || $index === 6) {
                 continue;
             }
@@ -44,7 +39,7 @@ class PayCalculator
     {
         $workdays_index = range(1, 5);
         $total_overtime_hours = 0;
-        foreach ($this->work_hours_array as $index => $work_hours_per_day) {
+        foreach ($this->work_hours->workHoursArray() as $index => $work_hours_per_day) {
             $is_workday = in_array($index, $workdays_index);
             if ($is_workday) {
                 $total_overtime_hours += max($work_hours_per_day - 8, 0);

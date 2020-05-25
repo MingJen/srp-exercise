@@ -6,10 +6,6 @@ namespace App\FinalSol;
 
 class Employee
 {
-    /**
-     * @var int[]
-     */
-    private $work_hours_array;
     private $name;
     /**
      * @var PayCalculator
@@ -20,13 +16,12 @@ class Employee
      */
     private $hour_report;
 
-    public function __construct(string $name, array $work_hours_array)
+    public function __construct(string $name, WorkHours $work_hours)
     {
         $this->name = $name;
-        $this->work_hours_array = $work_hours_array;
 
-        $this->pay_calculator = new PayCalculator($work_hours_array);
-        $this->hour_report = new HourReporter($work_hours_array);
+        $this->pay_calculator = new PayCalculator($work_hours);
+        $this->hour_report = new HourReporter($work_hours);
     }
 
     // CFO
