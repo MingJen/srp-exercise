@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace App\Violation;
 
-use App\Employee;
 use PHPUnit\Framework\TestCase;
 
 class EmployeeTest extends TestCase
@@ -56,6 +55,6 @@ class EmployeeTest extends TestCase
 
     public function testCalculatePay()
     {
-        $this->assertEquals(12300, $this->employee->calculatePay());
+        $this->assertEquals(13600, $this->employee->calculatePay());
     }
 }
