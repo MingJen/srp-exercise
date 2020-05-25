@@ -19,3 +19,9 @@ SRP公司的財務每週結算工資，計算方式如下
 幾天後，營運長突然收到了勞動局的罰款通知
 才發現工時報告和打卡記錄的工時完全對不起來...
 ```
+# 目標
+參考 Clean Architecture 第 7 章 SRP
+
+把 Employee 的 `工資計算` 和 `工時報表` 拆成 `PayCalculator` 和 `HourReporter`
+
+避免因為 regularHours 計算方式不同互相影響
