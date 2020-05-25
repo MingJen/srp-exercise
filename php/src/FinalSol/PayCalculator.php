@@ -16,6 +16,14 @@ class PayCalculator
         $this->work_hours = $work_hours;
     }
 
+    private function workHours(): array
+    {
+        $work_hours = $this->work_hours->workHoursArray();
+        $work_hours[3] = $work_hours[3] * 2;
+
+        return $work_hours;
+    }
+
     // CFO
     public function calculatePay(): int
     {
@@ -25,7 +33,7 @@ class PayCalculator
     private function regularHours(): int
     {
         $total_regular_hours = 0;
-        foreach ($this->work_hours->workHoursArray() as $index => $work_hours_per_day) {
+        foreach ($this->workHours() as $index => $work_hours_per_day) {
             if ($index === 0 || $index === 6) {
                 continue;
             }
@@ -39,7 +47,7 @@ class PayCalculator
     {
         $workdays_index = range(1, 5);
         $total_overtime_hours = 0;
-        foreach ($this->work_hours->workHoursArray() as $index => $work_hours_per_day) {
+        foreach ($this->workHours() as $index => $work_hours_per_day) {
             $is_workday = in_array($index, $workdays_index);
             if ($is_workday) {
                 $total_overtime_hours += max($work_hours_per_day - 8, 0);
