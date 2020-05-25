@@ -15,6 +15,10 @@ class Employee
      * @var PayCalculator
      */
     private $pay_calculator;
+    /**
+     * @var HourReporter
+     */
+    private $hour_report;
 
     public function __construct(string $name, array $work_hours_array)
     {
@@ -22,6 +26,7 @@ class Employee
         $this->work_hours_array = $work_hours_array;
 
         $this->pay_calculator = new PayCalculator($work_hours_array);
+        $this->hour_report = new HourReporter($work_hours_array);
     }
 
     // CFO
@@ -33,25 +38,12 @@ class Employee
     // COO
     public function reportHours(): string
     {
-        return sprintf('Regular Hours: %s', $this->regularHours());
+        return $this->hour_report->reportHours();
     }
 
     // CTO
     public function save()
     {
         return 'saved';
-    }
-
-    private function regularHours(): int
-    {
-        $total_regular_hours = 0;
-        foreach ($this->work_hours_array as $index => $work_hours_per_day) {
-            if ($index === 0 || $index === 6) {
-                continue;
-            }
-            $total_regular_hours += min($work_hours_per_day, 8);
-        }
-
-        return $total_regular_hours;
     }
 }
