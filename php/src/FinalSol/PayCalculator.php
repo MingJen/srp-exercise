@@ -15,21 +15,9 @@ class PayCalculator
 
     public function __construct(WorkHours $work_hours)
     {
-        $this->work_hours = $work_hours;
-    }
-
-    /**
-     * @return WorkHoursPerDay[]
-     */
-    private function workHours(): array
-    {
-        $work_hours = $this->work_hours->days();
-        return array_map(function (WorkHoursPerDay $day) {
-            if ($day->dayName()->equals(new Wednesday())) {
-                return new WorkHoursPerDay(new Wednesday(), $day->hours() * 2, true);
-            }
-            return $day;
-        }, $work_hours);
+        $this->work_hours = $work_hours->changeDayHours(new Wednesday(), function (int $hours) {
+            return $hours * 2;
+        });
     }
 
     // CFO
@@ -41,7 +29,7 @@ class PayCalculator
     private function regularHours(): int
     {
         $total_regular_hours = 0;
-        foreach ($this->workHours() as $work_hours_per_day) {
+        foreach ($this->work_hours->days() as $work_hours_per_day) {
             if (! $work_hours_per_day->isWorkday()) {
                 continue;
             }
@@ -54,7 +42,7 @@ class PayCalculator
     private function overtimeHours(): int
     {
         $total_overtime_hours = 0;
-        foreach ($this->workHours() as $work_hours_per_day) {
+        foreach ($this->work_hours->days() as $work_hours_per_day) {
             if ($work_hours_per_day->isWorkday()) {
                 $total_overtime_hours += max($work_hours_per_day->hours() - 8, 0);
             } else {

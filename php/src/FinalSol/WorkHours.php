@@ -31,4 +31,16 @@ class WorkHours
     {
         return $this->days;
     }
+
+    public function changeDayHours(DayName $day_name, \Closure $closure): WorkHours
+    {
+        $new_work_hours = clone $this;
+        foreach ($new_work_hours->days as $index => $day) {
+            if ($day->dayName()->equals($day_name)) {
+                $new_work_hours->days[$index] = new WorkHoursPerDay($day_name, $closure($day->hours()), $day->isWorkday());
+            }
+        }
+
+        return $new_work_hours;
+    }
 }
