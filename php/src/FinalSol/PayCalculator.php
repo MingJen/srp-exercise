@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\FinalSol;
 
+use App\FinalSol\Days\Wednesday;
+
 class PayCalculator
 {
     /**
@@ -16,12 +18,18 @@ class PayCalculator
         $this->work_hours = $work_hours;
     }
 
+    /**
+     * @return WorkHoursPerDay[]
+     */
     private function workHours(): array
     {
-        $work_hours = $this->work_hours->workHoursArray();
-        $work_hours[3] = $work_hours[3] * 2;
-
-        return $work_hours;
+        $work_hours = $this->work_hours->days();
+        return array_map(function (WorkHoursPerDay $day) {
+            if ($day->dayName()->equals(new Wednesday())) {
+                return new WorkHoursPerDay(new Wednesday(), $day->hours() * 2, true);
+            }
+            return $day;
+        }, $work_hours);
     }
 
     // CFO
@@ -33,11 +41,11 @@ class PayCalculator
     private function regularHours(): int
     {
         $total_regular_hours = 0;
-        foreach ($this->workHours() as $index => $work_hours_per_day) {
-            if ($index === 0 || $index === 6) {
+        foreach ($this->workHours() as $work_hours_per_day) {
+            if (! $work_hours_per_day->isWorkday()) {
                 continue;
             }
-            $total_regular_hours += min($work_hours_per_day, 8);
+            $total_regular_hours += min($work_hours_per_day->hours(), 8);
         }
 
         return $total_regular_hours;
@@ -45,14 +53,12 @@ class PayCalculator
 
     private function overtimeHours(): int
     {
-        $workdays_index = range(1, 5);
         $total_overtime_hours = 0;
-        foreach ($this->workHours() as $index => $work_hours_per_day) {
-            $is_workday = in_array($index, $workdays_index);
-            if ($is_workday) {
-                $total_overtime_hours += max($work_hours_per_day - 8, 0);
+        foreach ($this->workHours() as $work_hours_per_day) {
+            if ($work_hours_per_day->isWorkday()) {
+                $total_overtime_hours += max($work_hours_per_day->hours() - 8, 0);
             } else {
-                $total_overtime_hours += $work_hours_per_day;
+                $total_overtime_hours += $work_hours_per_day->hours();
             }
         }
 

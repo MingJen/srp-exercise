@@ -24,11 +24,11 @@ class HourReporter
     private function regularHours(): int
     {
         $total_regular_hours = 0;
-        foreach ($this->work_hours->workHoursArray() as $index => $work_hours_per_day) {
-            if ($index === 0 || $index === 6) {
+        foreach ($this->work_hours->days() as $work_hours_per_day) {
+            if (! $work_hours_per_day->isWorkday()) {
                 continue;
             }
-            $total_regular_hours += min($work_hours_per_day, 8);
+            $total_regular_hours += min($work_hours_per_day->hours(), 8);
         }
 
         return $total_regular_hours;
