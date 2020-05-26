@@ -1,0 +1,31 @@
+{
+  "name": "ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  },
+  "scripts": {
+    "start": "ts-node ./src/Employee.ts",
+    "test": "node_modules/.bin/jest ./ --watchAll"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "author": "",
+  "license": "ISC"
+}
