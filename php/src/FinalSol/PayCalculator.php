@@ -23,20 +23,7 @@ class PayCalculator
     // CFO
     public function calculatePay(): int
     {
-        return $this->regularHours() * 200 + $this->overtimeHours() * 350;
-    }
-
-    private function regularHours(): int
-    {
-        $total_regular_hours = 0;
-        foreach ($this->work_hours->days() as $work_hours_per_day) {
-            if (! $work_hours_per_day->isWorkday()) {
-                continue;
-            }
-            $total_regular_hours += min($work_hours_per_day->hours(), 8);
-        }
-
-        return $total_regular_hours;
+        return $this->work_hours->regularHours() * 200 + $this->overtimeHours() * 350;
     }
 
     private function overtimeHours(): int

@@ -32,6 +32,19 @@ class WorkHours
         return $this->days;
     }
 
+    public function regularHours(): int
+    {
+        $total_regular_hours = 0;
+        foreach ($this->days as $work_hours_per_day) {
+            if (! $work_hours_per_day->isWorkday()) {
+                continue;
+            }
+            $total_regular_hours += min($work_hours_per_day->hours(), 8);
+        }
+
+        return $total_regular_hours;
+    }
+
     public function changeDayHours(DayName $day_name, \Closure $closure): WorkHours
     {
         $new_work_hours = clone $this;
