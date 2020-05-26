@@ -25,3 +25,5 @@ SRP公司的財務每週結算工資，計算方式如下
 把 Employee 的 `工資計算` 和 `工時報表` 拆成 `PayCalculator` 和 `HourReporter`
 
 避免因為 regularHours 計算方式不同互相影響
+
+範例原始碼可以參考 https://github.com/MingJen/srp-exercise/blob/master/php/src/Employee.php
