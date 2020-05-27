@@ -1,0 +1,62 @@
+package community.dddtw.refactor;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class EmployeeTest {
+    private Employee employee;
+
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() {
+        employee = new Employee(
+                "Bob",
+                new int[]{
+                        4, // Sun.
+                        9, // Mon.
+                        8, // Tue.
+                        5, // Wed.
+                        9, // Thu.
+                        9, // Fri.
+                        7 // Sat.
+                }
+        );
+    }
+
+    @org.junit.jupiter.api.AfterEach
+    void tearDown() {
+    }
+
+
+    @Test
+    void test_calculatePay() {
+
+        assertEquals(this.employee.calculatePay(), 12300);
+    }
+
+
+    @Test
+    void test_report() {
+        assertEquals(this.employee.reportHours(), "Regular Hours: 37");
+
+    }
+
+
+    @Test
+    void should_throw_if_no_whole_week_data() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Employee("Foo", new int[]{1});
+        });
+        assertEquals(exception.getMessage(), "應該要有一週的工時資料");
+    }
+
+
+    @Test
+    void should_throw_if_any_workhour_out_of_range() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Employee("Foo", new int[]{7, 7, 7, 17, 7, 7, 7});
+        });
+        assertEquals(exception.getMessage(), "工時資料應該為 0 - 16 的數字");
+    }
+}
