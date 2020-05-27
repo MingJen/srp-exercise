@@ -1,4 +1,4 @@
-package community.dddtw.refactor;
+package community.dddtw.refactor.initial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +44,8 @@ public class Employee {
         for (int i = 0; i < this.workHours.length; i++) {
             int workDay = i;
             int workHour = this.workHours[i];
+
+
             if (workDays.contains(workDay)) {
                 hourCounter += Math.max(workHour - 8, 0);
             } else {
