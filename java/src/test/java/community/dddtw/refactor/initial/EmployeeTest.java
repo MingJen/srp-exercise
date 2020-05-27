@@ -44,7 +44,7 @@ class EmployeeTest {
 //     TODO: Fix it to meet the new requirement
 //    @Test
 //    void test_report_on_solid_wednesday() {
-//        assertEquals(this.employee.reportHours(), "Regular Hours: 40");
+//        assertEquals(this.employee.reportHours(), "Regular Hours: 37");
 //    }
 
 
