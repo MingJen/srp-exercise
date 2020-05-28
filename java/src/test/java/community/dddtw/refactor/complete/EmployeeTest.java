@@ -1,4 +1,4 @@
-package community.dddtw.refactor.initial;
+package community.dddtw.refactor.complete;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +26,8 @@ class EmployeeTest {
 
     @Test
     void test_calculatePay() {
-        assertEquals(this.employee.calculatePay(), 12300);
-//        TODO: Fix it after introducing SOLID Wednesday (double pay)
-//      assertEquals(this.employee.calculatePay(), 13600);
+        assertEquals(this.employee.calculatePay(), 13600);
     }
-
 
     @Test
     void test_report() {
